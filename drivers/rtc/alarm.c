@@ -290,9 +290,17 @@ int alarm_set_rtc(struct timespec new_time)
 		goto err;
 	}
 	ret = rtc_set_time(alarm_rtc_dev, &rtc_new_rtc_time);
+#if 0 // 2012.09.02 leecy add for not using alarm_set_rtc Pantech
 	if (ret < 0)
 		pr_alarm(ERROR, "alarm_set_rtc: "
 			"Failed to set RTC, time will be lost on reboot\n");
+#else
+	if (ret < 0){
+		pr_alarm(ERROR, "alarm_set_rtc: "
+			"Not use alarm RTC, this case is Success\n");
+		ret = 0; // because this case is success, ret is zero.
+	}
+#endif
 err:
 	wake_unlock(&alarm_rtc_wake_lock);
 	mutex_unlock(&alarm_setrtc_mutex);

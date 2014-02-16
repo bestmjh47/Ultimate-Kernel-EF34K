@@ -543,21 +543,25 @@ static void max17040_quick_get_soc(void)
 	int avalue=0;
 	//unsigned long quick_soc;
 	int i=0;
+	bool completed = false;
 	dbg_func_in();
+
+	while (!completed) {
+
 	msb = max17040_read_reg(MAX17040_SOC_MSB);
 	lsb = max17040_read_reg(MAX17040_SOC_LSB);
 	if(msb < 0 || lsb < 0)
 	{
 		for(i=0;i<MAX_READ;i++)
 		{
-		msb = max17040_read_reg(MAX17040_SOC_MSB);
-		lsb = max17040_read_reg(MAX17040_SOC_LSB);
-		if(msb < 0 || lsb <0)
-		{
-		continue;
-		}
-		else
-		break;
+			msb = max17040_read_reg(MAX17040_SOC_MSB);
+			lsb = max17040_read_reg(MAX17040_SOC_LSB);
+			if(msb < 0 || lsb <0)
+			{
+				continue;
+			}
+			else
+			break;
 		}
 	}
 	/*//description
@@ -568,15 +572,24 @@ static void max17040_quick_get_soc(void)
 	//Ajdusted soc%=(SOC%-EMPTY)/(FULL-EMPTY)*100
 	//logic code	
 	sleep_dbg("MAX17040_QUICK Adjusted SOC MSB [%d] : LSB [%d] : Adjusted SOC [%d] :Try Count [%d]\n",msb,lsb,avalue,i);
-	mutex_lock(&max17040_data.data_mutex); 	
-	max17040_data.quick_data.soc_msb=msb;	
-	max17040_data.quick_data.soc_lsb=lsb;
-	if(i==MAX_READ)	
-	max17040_data.quick_data.quick_soc=0;			
-	else
-	max17040_data.quick_data.quick_soc=avalue;	
-	mutex_unlock(&max17040_data.data_mutex);
-	dbg_func_out();		
+	
+	if(i==MAX_READ) {
+		printk("Re-running to check Battery SoC!!!\n");
+		i = 0;
+		continue;			
+	} else {
+		mutex_lock(&max17040_data.data_mutex); 	
+		max17040_data.quick_data.soc_msb=msb;	
+		max17040_data.quick_data.soc_lsb=lsb;
+		max17040_data.quick_data.quick_soc=avalue;
+		mutex_unlock(&max17040_data.data_mutex);
+		completed = true;
+		break;
+	}
+
+	}	
+
+	dbg_func_out();	
 }
 static void max17040_quick_get_vcell(void)
 {
@@ -585,7 +598,11 @@ static void max17040_quick_get_vcell(void)
 	unsigned long quick_avalue;
 	//unsigned long temp;	
 	unsigned long voltage=0;
-	int i=0;	
+	int i=0;
+	bool completed = false;
+
+	while (!completed) {
+
 	msb = max17040_read_reg(MAX17040_VCELL_MSB);
 	lsb = max17040_read_reg(MAX17040_VCELL_LSB);
 	if(msb < 0 || lsb < 0)
@@ -605,15 +622,23 @@ static void max17040_quick_get_vcell(void)
 	voltage=(msb<<4)|((lsb&0xf0)>>4);
 	quick_avalue=(voltage*1250)/100;
 	sleep_dbg("MAX17040_QUICK  LOW MSB [%d] : LSB [%d] : LOW VOLTAGE [%d]\n",msb,lsb,voltage);
-	sleep_dbg("MAX17040_QUICK  Adjusted [%d] : I2C Error Count [%d]\n",quick_avalue,i);
-	mutex_lock(&max17040_data.data_mutex); 	
-	max17040_data.quick_data.vcell_msb = msb;	
-	max17040_data.quick_data.vcell_lsb = lsb;		
-	if(i==MAX_READ)
-	max17040_data.quick_data.quick_vcell = 33975;	
-	else
-	max17040_data.quick_data.quick_vcell = quick_avalue;	
-	mutex_unlock(&max17040_data.data_mutex);	
+	sleep_dbg("MAX17040_QUICK  Adjusted [%d] : I2C Error Count [%d]\n",quick_avalue,i);	
+	
+	if(i==MAX_READ) {
+		printk("Re-running to check V-Cell!!!\n");
+		i = 0;
+		continue;
+	} else {
+		mutex_lock(&max17040_data.data_mutex); 	
+		max17040_data.quick_data.vcell_msb = msb;	
+		max17040_data.quick_data.vcell_lsb = lsb;	
+		max17040_data.quick_data.quick_vcell = quick_avalue;
+		mutex_unlock(&max17040_data.data_mutex);
+		completed = true;
+		break;
+	}
+
+	}
 
 }
 //ps2 team shs : test code

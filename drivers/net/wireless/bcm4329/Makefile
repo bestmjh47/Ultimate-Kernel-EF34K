@@ -33,8 +33,8 @@ WLANCFLAGS = -DLINUX -DSRCBASE=\"$(SRCBASE)\" -DBCMDRIVER -DBCMDONGLEHOST      \
 	-DMMC_SDIO_ABORT -DCUSTOM_OOB_GPIO_NUM=$(CONFIG_BCM4329_OOB_GPIO)      \
 	-DARP_OFFLOAD_SUPPORT -DPKT_FILTER_SUPPORT -DPNO_SUPPORT               \
 	-DGET_CUSTOM_MAC_ENABLE -DCUSTOMER_HW_PT -DWLAN_MAC_PATH=\"/dev/panmac\" \
-	-fshort-wchar -Wall -Wstrict-prototypes -Werror
-
+	-Wall -Wstrict-prototypes -Werror
+#-fshort-wchar 
 WLANCFLAGS += -I$(SRCBASE)/dhd/sys \
 	-I$(SRCBASE)/dongle  \
 	-I$(SRCBASE)/include \
