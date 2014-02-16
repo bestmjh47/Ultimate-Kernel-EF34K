@@ -196,7 +196,7 @@ static void pm8xxx_vib_enable(struct timed_output_dev *dev, int value)
 
 	if(level>0) {
 		//level = ((level*85)/100) + 3 + 11;
-		level = ((level*75)/100) + 12;
+		level = ((level*75)/100) + 5 + 11;
 	}
 	vib->level = level;
 	dbg("level=%d / timeoutms=%ld\n", level, timeoutms);

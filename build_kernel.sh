@@ -10,8 +10,8 @@
 ##############################################################################
 # set toolchain
 ##############################################################################
-export ARCH=arm
-export CROSS_COMPILE=/media/aosp/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
+# export ARCH=arm
+# export CROSS_COMPILE=$PWD/../prebuilt/linux-x86/toolchain/arm-eabi-4.4.0/bin/arm-eabi-
 
 ##############################################################################
 # make zImage

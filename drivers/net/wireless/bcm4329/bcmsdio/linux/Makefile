@@ -103,8 +103,8 @@ DFLAGS += -DBCMSDIO -DBCMSDIOH_SPI -DTESTDONGLE
 CFILES += bcmsdspi.c bcmsdspi_linux.c 
 endif
 
-CFLAGS += $(DFLAGS) $(WFLAGS) $(IFLAGS)
-#-fshort-wchar 
+CFLAGS += -fshort-wchar $(DFLAGS) $(WFLAGS) $(IFLAGS)
+
 LDFLAGS := -r
 MODULES := bcmsdh_driver.o
 ifeq ($(BCM_KVER), 2.6)
