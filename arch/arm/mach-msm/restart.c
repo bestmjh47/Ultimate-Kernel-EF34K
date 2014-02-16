@@ -227,6 +227,34 @@ static irqreturn_t resout_irq_handler(int irq, void *dev_id)
 #ifdef FEATURE_SKY_PWR_ONOFF_REASON_CNT
 int sky_reset_reason=SYS_RESET_REASON_UNKNOWN;
 #endif
+
+void pwroff_machine(void) {
+
+	gpio_set_value(140 ,0);
+	mdelay(1);      // Disable hold time
+	//set_dload_mode(0);	
+	pm8xxx_reset_pwr_off(1);
+	__raw_writel(0x77665501, restart_reason);
+	__raw_writel(0, msm_tmr0_base + WDT0_EN);
+	#if 0 //p14291
+	if (!(machine_is_msm8x60_fusion() || machine_is_msm8x60_fusn_ffa())) {
+		mb();
+		__raw_writel(0, PSHOLD_CTL_SU); /* Actually reset the chip */
+		mdelay(5000);
+		pr_notice("PS_HOLD didn't work, falling back to watchdog\n");
+	}
+	#endif
+
+	__raw_writel(1, msm_tmr0_base + WDT0_RST);
+	__raw_writel(5*0x31F3, msm_tmr0_base + WDT0_BARK_TIME);
+	__raw_writel(0x31F3, msm_tmr0_base + WDT0_BITE_TIME);
+	__raw_writel(1, msm_tmr0_base + WDT0_EN);
+
+	//mb();
+	//__raw_writel(0, PSHOLD_CTL_SU);
+
+}
+
 void arch_reset(char mode, const char *cmd)
 {
 #ifdef CONFIG_MSM_DLOAD_MODE
