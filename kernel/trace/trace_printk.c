@@ -49,7 +49,7 @@ static
 void hold_module_trace_bprintk_format(const char **start, const char **end)
 {
 	const char **iter;
-	char *fmt;
+	char *fmt = NULL;
 
 	mutex_lock(&btrace_mutex);
 	for (iter = start; iter < end; iter++) {
@@ -66,7 +66,7 @@ void hold_module_trace_bprintk_format(const char **start, const char **end)
 			list_add_tail(&tb_fmt->list, &trace_bprintk_fmt_list);
 			strcpy(fmt, *iter);
 			tb_fmt->fmt = fmt;
-			*iter = tb_fmt->fmt;
+			 *iter = tb_fmt->fmt;
 		} else {
 			kfree(tb_fmt);
 			*iter = NULL;

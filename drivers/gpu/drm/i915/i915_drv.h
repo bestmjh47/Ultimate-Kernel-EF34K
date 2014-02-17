@@ -325,6 +325,8 @@ typedef struct drm_i915_private {
 	struct timer_list hangcheck_timer;
 	int hangcheck_count;
 	uint32_t last_acthd;
+	uint32_t last_acthd_bsd;
+	uint32_t last_acthd_blt;
 	uint32_t last_instdone;
 	uint32_t last_instdone1;
 
@@ -541,6 +543,7 @@ typedef struct drm_i915_private {
 	u32 savePIPEB_LINK_M1;
 	u32 savePIPEB_LINK_N1;
 	u32 saveMCHBAR_RENDER_STANDBY;
+	u32 savePCH_PORT_HOTPLUG;
 
 	struct {
 		/** Bridge to intel-gtt-ko */

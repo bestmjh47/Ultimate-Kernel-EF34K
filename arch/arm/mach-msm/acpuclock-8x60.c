@@ -49,16 +49,17 @@
  * The PLL hardware has a minimum frequency of 384MHz.
  * Calibration should respect this limit. */
 #define L_VAL_SCPLL_CAL_MIN	0x08 /* =  432 MHz with 27MHz source */
+#define L_VAL_SCPLL_CAL_MAX     0x22 /* = 1836 MHz with 27MHz source */
 
 #ifdef CONFIG_SKY_CORE_VOLTAGE
-#define MAX_VDD_SC		1350000 /* uV */
+#define MAX_VDD_SC		1450000 /* uV */
 #define MIN_VDD_SC		750000 /* uV */
 #define VDD_OFFSET            0//75000
 #else
 #define MAX_VDD_SC		1325000 /* uV */
 #define MIN_VDD_SC		725000 /* uV */
 #endif
-#define MAX_VDD_MEM		1325000 /* uV */
+#define MAX_VDD_MEM		1450000 /* uV */
 #define MAX_VDD_DIG		1200000 /* uV */
 #define MAX_AXI			 310500 /* KHz */
 #define SCPLL_LOW_VDD_FMAX	 594000 /* KHz */
@@ -391,6 +392,9 @@ static struct clkctl_acpu_speed acpu_freq_tbl_fast[] = {
   { {1, 1}, 1566000,  ACPU_SCPLL, 0, 0, 1, 0x1D, L2(19), 1125000, 0x03006000},
   { {1, 1}, 1620000,  ACPU_SCPLL, 0, 0, 1, 0x1E, L2(19), 1125000, 0x03006000},
   { {1, 1}, 1674000,  ACPU_SCPLL, 0, 0, 1, 0x1F, L2(19), 1150000, 0x03006000},
+  { {1, 1}, 1728000,  ACPU_SCPLL, 0, 0, 1, 0x20, L2(21), 1300000, 0x03006000},
+  { {1, 1}, 1782000,  ACPU_SCPLL, 0, 0, 1, 0x21, L2(21), 1375000, 0x03006000},
+  { {1, 1}, 1836000,  ACPU_SCPLL, 0, 0, 1, 0x22, L2(21), 1400000, 0x03006000},
   { {0, 0}, 0 },
 };
 
@@ -963,7 +967,7 @@ static __init struct clkctl_acpu_speed *select_freq_plan(void)
 		pvs = (pte_efuse >> 13) & 0x7;
 
 	if (speed_bin == 0x2) {
-		max_khz = 1674000;
+		max_khz = 1836000;
 		switch (pvs) {
 		case 0x7:
 		case 0x5:

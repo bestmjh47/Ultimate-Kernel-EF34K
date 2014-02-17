@@ -510,7 +510,7 @@ static struct regulator_init_data saw_s0_init_data = {
 			.valid_ops_mask = REGULATOR_CHANGE_VOLTAGE,
 			.min_uV = 800000,
 #ifdef CONFIG_SKY_CORE_VOLTAGE
-			.max_uV = 1350000,
+			.max_uV = 1450000,
 #else
 			.max_uV = 1325000,
 #endif
@@ -525,7 +525,7 @@ static struct regulator_init_data saw_s1_init_data = {
 			.valid_ops_mask = REGULATOR_CHANGE_VOLTAGE,
 			.min_uV = 800000,
 #ifdef CONFIG_SKY_CORE_VOLTAGE
-			.max_uV = 1350000,
+			.max_uV = 1450000,
 #else
 			.max_uV = 1325000,
 #endif
@@ -4865,8 +4865,8 @@ static struct regulator_consumer_supply vreg_consumers_PM8901_S4_PC[] = {
 static struct rpm_regulator_init_data rpm_regulator_early_init_data[] = {
 	/*	 ID       a_on pd ss min_uV   max_uV   init_ip    freq */
 #ifdef CONFIG_SKY_CORE_VOLTAGE
-	RPM_SMPS(PM8058_S0, 0, 1, 1,  500000, 1350000, SMPS_HMIN, 1p60),
-	RPM_SMPS(PM8058_S1, 0, 1, 1,  500000, 1350000, SMPS_HMIN, 1p60),
+    RPM_SMPS(PM8058_S0, 0, 1, 1,  500000, 1450000, SMPS_HMIN, 1p60),
+    RPM_SMPS(PM8058_S1, 0, 1, 1,  500000, 1450000, SMPS_HMIN, 1p60),
 #else
 	RPM_SMPS(PM8058_S0, 0, 1, 1,  500000, 1325000, SMPS_HMIN, 1p60),
 	RPM_SMPS(PM8058_S1, 0, 1, 1,  500000, 1250000, SMPS_HMIN, 1p60),

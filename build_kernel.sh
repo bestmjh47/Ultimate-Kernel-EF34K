@@ -11,8 +11,9 @@
 # set toolchain
 ##############################################################################
 export ARCH=arm
-export CROSS_COMPILE=/media/aosp/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
-
+#export CROSS_COMPILE=/home/moon/linaro-4.7.4/bin/arm-cortex_a8-linux-gnueabi-
+#export CROSS_COMPILE=/home/moon/linaro-4.8.1/bin/arm-cortex_a8-linux-gnueabi-
+export CROSS_COMPILE=/home/moon/arm-linux-androideabi-4.7/bin/arm-linux-androideabi-
 ##############################################################################
 # make zImage
 ##############################################################################
